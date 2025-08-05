@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Catálogo de Productos</title>
+  <title>Catálogo de Utensilios</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Montserrat', sans-serif;
-      background: #f8f9fa;
+      background: #f0f2f5;
       padding: 20px;
     }
     h1 {
@@ -22,12 +22,13 @@
       margin-bottom: 30px;
     }
     .buscador input {
-      padding: 10px;
+      padding: 12px;
       width: 90%;
-      max-width: 400px;
+      max-width: 500px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 30px;
       font-size: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     .contenedor {
       display: grid;
@@ -38,9 +39,9 @@
     }
     .producto {
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
       transition: transform 0.3s ease;
     }
     .producto:hover {
@@ -50,50 +51,53 @@
       position: relative;
       width: 100%;
       overflow: hidden;
-      border-radius: 10px;
-      margin-bottom: 10px;
     }
     .carousel img {
       width:100%;
-      height: 300px;
+      height: 220px;
       object-fit: cover;
       display: none;
+      cursor: pointer;
     }
     .carousel img.activa {
       display: block;
     }
     .carousel-controls {
       text-align: center;
-      margin-top: 5px;
+      margin: 5px 0;
     }
     .carousel-controls button {
-      background: #ddd;
+      background: #eee;
       border: none;
       border-radius: 50%;
-      width: 25px;
-      height: 25px;
+      width: 30px;
+      height: 30px;
       margin: 0 5px;
       cursor: pointer;
+      font-size: 18px;
     }
     .producto h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #007bff;
-      margin-bottom: 5px;
+      margin: 10px;
     }
     .producto p {
       font-size: 0.95rem;
       color: #555;
+      margin: 0 10px;
     }
     .precio {
       font-weight: bold;
       color: #28a745;
-      margin: 10px 0;
+      margin: 10px;
     }
     .boton {
-      display: inline-block;
+      display: block;
       background-color: #25D366;
       color: white;
-      padding: 10px 15px;
+      text-align: center;
+      padding: 10px;
+      margin: 10px;
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
@@ -102,71 +106,108 @@
     .boton:hover {
       background-color: #1ebc58;
     }
-    footer {
-      margin-top: 40px;
-      text-align: center;
-      font-size: 0.8rem;
-      color: #888;
+    #btn-arriba {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
     }
   </style>
 </head>
 <body>
 
-  <h1>🛍️ Catálogo de Productos</h1>
+  <h1>Catálogo de Utensilios Varios</h1>
 
   <div class="buscador">
     <input type="text" id="busqueda" placeholder="Buscar productos..." onkeyup="filtrarProductos()">
   </div>
 
-  <div class="contenedor" id="contenedor-productos">
+  <div class="contenedor" id="contenedor-productos"></div>
 
-    <div class="producto">
-      <div class="carousel">
-        <img class="activa" src="IMG/jarra1.jpg" alt="Producto 1 - Imagen 1">
-        <img src="IMG/jarra3.jpg" alt="Producto 1 - Imagen 3">
-        <div class="carousel-controls">
-          <button onclick="cambiarImagen(this, -1)">‹</button>
-          <button onclick="cambiarImagen(this, 1)">›</button>
-        </div>
-      </div>
-      <h2>Jarra Eléctrica</h2>
-      <p>Jarra eléctrica de 2L, rápida y segura. Ideal para hervir agua.</p>
-      <p class="precio">$10.00</p>
-      <a class="boton" href="https://wa.me/50370418755?text=Hola,%20quiero%20el%20Jarra Electrica%20" target="_blank">Lo quiero por WhatsApp</a>
-    </div>
+  <button id="btn-arriba" onclick="scrollToTop()">&#8679;</button>
 
-    <div class="producto">
-      <div class="carousel">
-        <img class="activa" src="IMG/jarravasos1.jpg" alt="Producto 2 - Imagen 1">
-        <img src="IMG/jarravasos2.jpg" alt="Producto 2 - Imagen 2">
-        <img src="IMG/jarravasos3.jpg" alt="Producto 2 - Imagen 3">
-        <div class="carousel-controls">
-          <button onclick="cambiarImagen(this, -1)">‹</button>
-          <button onclick="cambiarImagen(this, 1)">›</button>
-        </div>
-      </div>
-      <h2>Jarra con 6 Vasos</h2>
-      <p>Jarra con 6 vasos. Práctico y elegante para bebidas frías.</p>
-      <p class="precio">$15.00</p>
-      <a class="boton" href="https://wa.me/50370418755?text=Hola,%20quiero%20el%20Jarra con 6 vasos%20" target="_blank">Lo quiero por WhatsApp</a>
-    </div>
-
+  <div class="modal" id="modal-imagen" onclick="this.style.display='none'">
+    <img id="imagen-ampliada" src="" alt="Imagen ampliada">
   </div>
 
   <footer>
-    © 2025 Tu Negocio. Todos los derechos reservados.
+    <p style="text-align:center; margin-top: 40px; font-size: 0.85rem; color: #888;">
+      &copy; 2025 - Sierra Peñate. Todos los derechos reservados.
+    </p>
   </footer>
 
   <script>
-    function filtrarProductos() {
-      const texto = document.getElementById('busqueda').value.toLowerCase();
-      const productos = document.getElementsByClassName('producto');
-      for (let i = 0; i < productos.length; i++) {
-        const producto = productos[i];
-        const contenido = producto.textContent.toLowerCase();
-        producto.style.display = contenido.includes(texto) ? 'block' : 'none';
-      }
-    }
+    const productos = [
+      {nombre: 'Planchas de ropa', desc: 'De vapor.', precio: '15.00', imagenes: ['IMG/plan1.jpg','IMG/plan2.jpg']},
+      {nombre: 'Jarra Eléctrica', desc: 'Jarra eléctrica de 2L', precio: '15.00', imagenes: ['IMG/jarra1.jpg','IMG/jarra3.jpg']},
+      {nombre: 'Sarten Eléctrico', desc: 'Capacidad de 2.5L', precio: '12.00', imagenes: ['IMG/ser1.jpg','IMG/ser2.jpg']},
+      {nombre: 'Pavera', desc: 'Anti-adherente, hornear', precio: '10.00', imagenes: ['IMG/yu1.jpg','IMG/yu2.jpg']},
+      {nombre: 'Olla', desc: 'Olla extendida', precio: '10.00', imagenes: ['IMG/o1.jpg','IMG/o2.jpg']},
+      {nombre: 'Jarra con 6 Vasos', desc: 'Jarra con vasos, práctica y elegante.', precio: '15.00', imagenes: ['IMG/jarravasos1.jpg','IMG/jarravasos2.jpg','IMG/jarravasos3.jpg']},
+      {nombre: 'Set de 3 saleros', desc: 'Perfectos para sal, pimienta y especias.', precio: '5.00', imagenes: ['IMG/Salero1.jpg','IMG/Salero2.jpg']},
+      {nombre: 'Ollas', desc: '2 diferentes tipos.', precio: '16.00', imagenes: ['IMG/olas1.jpg','IMG/olas2.jpg']},
+      {nombre: 'Set de sabanas decorados', desc: 'Incluye 2 fundas almohada, 1 sabana, 1 sobresabana.', precio: '20.00', imagenes: ['IMG/sab1.jpg','IMG/sab2.jpg']},
+      {nombre: 'Juego de platos y vasos', desc: 'Ideales para uso diario.', precio: '12.00', imagenes: ['IMG/vajilla1.jpg','IMG/vajilla2.jpg']},
+      {nombre: 'Recipiente Plástico', desc: 'Práctico para almacenar alimentos.', precio: '5.00', imagenes: ['IMG/re1.jpg','IMG/re2.jpg']},
+      {nombre: 'Sartén', desc: 'Tamaño 35cm ideal para freír.', precio: '15.00', imagenes: ['IMG/sarte1.jpg','IMG/sarte2.jpg']},
+      {nombre: 'Juego de utencilios', desc: 'Incluye 4 piezas.', precio: '5.00', imagenes: ['IMG/jue.jpg']},
+      {nombre: 'Tazas', desc: 'Porcelana.', precio: '2.00', imagenes: ['IMG/ta1.jpg','IMG/ta3.jpg']},
+      {nombre: 'Set de 3 Ollas', desc: 'Incluyen tapas y asas seguras.', precio: '12.00', imagenes: ['IMG/ollas1.jpg','IMG/ollas2.jpg']},
+      {nombre: 'Sartén Antiadherente', desc: 'Fácil de limpiar con mango ergonómico.', precio: '13.00', imagenes: ['IMG/sar1.jpg','IMG/sar2.jpg']},
+      {nombre: 'Recipientes', desc: 'Hechas de ceramica.', precio: '8.00', imagenes: ['IMG/reci1.jpg','IMG/reci2.jpg']},
+      {nombre: 'Set de 6 vasos', desc: 'Vasos pequeños de vidrio.', precio: '5.00', imagenes: ['IMG/va1.jpg','IMG/va2.jpg']},
+      {nombre: 'Set de 4 vasos', desc: 'Vasos grandes de vidrio.', precio: '5.00', imagenes: ['IMG/vas.jpg']},
+      {nombre: 'Sartén Cuadrado', desc: 'Antiadherente, práctico y moderno.', precio: '15.00', imagenes: ['IMG/s1.jpg','IMG/s2.jpg']},
+      {nombre: 'Frutera', desc: '5 pcs de vidrio color amarillo.', precio: '3.50', imagenes: ['IMG/fru1.jpg','IMG/fru2.jpg']},
+      {nombre: 'Set 4 platos', desc: 'Pequeños de vidrio.', precio: '3.00', imagenes: ['IMG/p1.jpg','IMG/p2.jpg']},
+      {nombre: 'Recipiente', desc: 'Porcelana.', precio: '3.00', imagenes: ['IMG/r1.jpg','IMG/r2.jpg']},
+      {nombre: 'Juego de cuchillos', desc: 'Incluye 7 diferentes', precio: '7.00', imagenes: ['IMG/cu.jpg','IMG/cu2.jpg']},
+      {nombre: 'Set de 2 Azucareras', desc: 'Vidrio. Ideales para azúcar, café u otros.', precio: '4.00', imagenes: ['IMG/azu1.jpg','IMG/azu2.jpg']},
+      {nombre: 'Juego de ollas', desc: 'Grande $7, pequeña $5.', precio: '12.00', imagenes: ['IMG/ol1.jpg','IMG/ol2.jpg']}
+    ];
+
+    const contenedor = document.getElementById('contenedor-productos');
+    productos.forEach((p, idx) => {
+      const imagenesHTML = p.imagenes.map((src, i) => `<img onclick="ampliarImagen('${src}')" class="${i === 0 ? 'activa' : ''}" src="${src}" alt="Producto ${idx + 1}">`).join('');
+      contenedor.innerHTML += `
+      <div class="producto">
+        <div class="carousel" ontouchstart="iniciarDesliz(event)" ontouchend="terminarDesliz(event)">
+          ${imagenesHTML}
+          <div class="carousel-controls">
+            <button onclick="cambiarImagen(this, -1)">‹</button>
+            <button onclick="cambiarImagen(this, 1)">›</button>
+          </div>
+        </div>
+        <h2>${p.nombre}</h2>
+        <p>${p.desc}</p>
+        <p class="precio">$${p.precio}</p>
+        <a class="boton" href="https://wa.me/50370524264?text=Hola,%20me%20interesa%20${encodeURIComponent(p.nombre)}" target="_blank">Lo quiero por WhatsApp</a>
+      </div>`;
+    });
 
     function cambiarImagen(btn, direccion) {
       const carrusel = btn.closest('.carousel');
@@ -181,9 +222,51 @@
       let siguiente = (actual + direccion + imagenes.length) % imagenes.length;
       imagenes[siguiente].classList.add('activa');
     }
+
+    function filtrarProductos() {
+      const texto = document.getElementById('busqueda').value.toLowerCase();
+      const productos = document.getElementsByClassName('producto');
+      for (let i = 0; i < productos.length; i++) {
+        const producto = productos[i];
+        const contenido = producto.textContent.toLowerCase();
+        producto.style.display = contenido.includes(texto) ? 'block' : 'none';
+      }
+    }
+
+    window.onscroll = () => {
+      document.getElementById("btn-arriba").style.display =
+        window.scrollY > 200 ? "block" : "none";
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    let startX = 0;
+    function iniciarDesliz(event) {
+      startX = event.touches[0].clientX;
+    }
+    function terminarDesliz(event) {
+      let endX = event.changedTouches[0].clientX;
+      let diff = endX - startX;
+      if (Math.abs(diff) > 50) {
+        const direccion = diff < 0 ? 1 : -1;
+        const carrusel = event.currentTarget;
+        const btn = carrusel.querySelector('button');
+        cambiarImagen(btn, direccion);
+      }
+    }
+
+    function ampliarImagen(src) {
+      const modal = document.getElementById('modal-imagen');
+      const img = document.getElementById('imagen-ampliada');
+      img.src = src;
+      modal.style.display = 'flex';
+    }
   </script>
 
 </body>
 </html>
+
 
 
